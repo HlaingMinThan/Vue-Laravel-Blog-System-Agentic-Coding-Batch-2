@@ -47,4 +47,10 @@ class User extends Authenticatable implements PasskeyUser
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    // a user hasMany blogs
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
 }

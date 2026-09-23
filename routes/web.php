@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
@@ -17,4 +18,11 @@ Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('bl
 Route::post('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.delete');
 Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
 
-require __DIR__.'/settings.php';
+Route::get("/users/{user}", function (User $user) {
+    return inertia("Blogs", [
+        'blogs' => $user->blogs->load('user'),
+        'user' => $user
+    ]);
+});
+
+require __DIR__ . '/settings.php';

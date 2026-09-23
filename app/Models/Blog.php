@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
+
+    // a blog belongsTo a user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

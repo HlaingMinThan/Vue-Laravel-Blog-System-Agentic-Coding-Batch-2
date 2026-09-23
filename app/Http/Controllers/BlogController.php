@@ -15,7 +15,7 @@ class BlogController extends Controller
     public function index(): Response
     {
         return Inertia::render('Blogs', [
-            'blogs' => Blog::latest()->get(),
+            'blogs' => Blog::with("user")->latest()->get(),
         ]);
     }
 
@@ -51,7 +51,7 @@ class BlogController extends Controller
     public function show(Blog $blog): Response
     {
         return Inertia::render('BlogShow', [
-            'blog' => $blog,
+            'blog' => $blog->load('user'),
         ]);
     }
 
