@@ -21,7 +21,7 @@ Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show')
 Route::get("/users/{user}", function (User $user) {
     return inertia("Blogs", [
         'blogs' => $user->blogs->load('user'),
-        'user' => $user
+        'user' => $user->load('nrc')
     ]);
 });
 

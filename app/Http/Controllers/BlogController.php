@@ -30,19 +30,19 @@ class BlogController extends Controller
     /**
      * Store a newly created blog.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => ['required'],
             'description' => ['required'],
         ]);
-
         $blog = new Blog;
         $blog->title = $validated['title'];
         $blog->description = $validated['description'];
+        $blog->user_id = auth()->id();
         $blog->save();
 
-        return to_route('blogs');
+        return redirect('/blogs');
     }
 
     /**
@@ -68,7 +68,7 @@ class BlogController extends Controller
     /**
      * Update the specified blog.
      */
-    public function update(Request $request, Blog $blog): RedirectResponse
+    public function update(Request $request, Blog $blog)
     {
         $validated = $request->validate([
             'title' => ['required'],
@@ -79,16 +79,16 @@ class BlogController extends Controller
         $blog->description = $validated['description'];
         $blog->save();
 
-        return to_route('blogs');
+        return redirect('/blogs');
     }
 
     /**
      * Remove the specified blog.
      */
-    public function destroy(Blog $blog): RedirectResponse
+    public function destroy(Blog $blog)
     {
         $blog->delete();
 
-        return to_route('blogs');
+        return redirect('/blogs');
     }
 }

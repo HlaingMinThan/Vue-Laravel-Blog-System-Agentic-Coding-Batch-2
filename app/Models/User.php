@@ -53,4 +53,10 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(Blog::class);
     }
+
+    // a user hasOne nrc
+    public function nrc()
+    {
+        return $this->hasONe(NRC::class);
+    }
 }
