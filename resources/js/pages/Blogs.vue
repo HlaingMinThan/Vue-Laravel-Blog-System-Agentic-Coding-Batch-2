@@ -39,6 +39,9 @@
                     ]"
                 />
                 <div class="p-5">
+                    <span v-if="blog.category" class="mb-2 inline-block rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-400">
+                        {{ blog.category.name }}
+                    </span>
                     <h2 class="mb-3 text-lg font-semibold leading-snug text-white transition-colors group-hover:text-teal-400">
                         {{ blog.title }}
                     </h2>

@@ -11,6 +11,9 @@
             <div class="h-1.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400" />
 
             <div class="p-8 sm:p-10">
+                <span v-if="blog.category" class="mb-3 inline-block rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium text-teal-400">
+                    {{ blog.category.name }}
+                </span>
                 <h1 class="text-3xl font-bold leading-tight text-white">{{ blog.title }}</h1>
 
                 <div v-if="blog.user" class="mt-5 flex items-center gap-3">

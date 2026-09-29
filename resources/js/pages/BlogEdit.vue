@@ -18,6 +18,23 @@
 
                 <form @submit.prevent="updateBlog" class="flex flex-col gap-6">
                     <div class="flex flex-col gap-2">
+                        <label for="category" class="text-sm font-medium text-slate-300">Category</label>
+                        <select
+                            v-model="category_id"
+                            id="category"
+                            class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition focus:border-teal-400/50 focus:outline-none focus:ring-1 focus:ring-teal-400/30"
+                        >
+                            <option value="" class="bg-[#111827]">Select a category</option>
+                            <option v-for="cat in categories" :key="cat.id" :value="cat.id" class="bg-[#111827]">
+                                {{ cat.name }}
+                            </option>
+                        </select>
+                        <p v-if="$page.props.errors?.category_id" class="text-sm text-red-400">
+                            {{ $page.props.errors.category_id }}
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
                         <label for="title" class="text-sm font-medium text-slate-300">Title</label>
                         <input
                             v-model="title"
@@ -66,11 +83,15 @@ export default {
         blog: {
             type: Object,
         },
+        categories: {
+            type: Array,
+        },
     },
     data() {
         return {
             title: this.blog.title,
             description: this.blog.description,
+            category_id: this.blog.category_id ?? "",
         };
     },
     methods: {
@@ -78,6 +99,7 @@ export default {
             this.$inertia.post("/blogs/" + this.blog.id + "/update", {
                 title: this.title,
                 description: this.description,
+                category_id: this.category_id || null,
             });
         },
     },

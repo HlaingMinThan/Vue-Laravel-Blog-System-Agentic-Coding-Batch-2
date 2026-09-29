@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,7 +16,7 @@ class BlogController extends Controller
     public function index(): Response
     {
         return Inertia::render('Blogs', [
-            'blogs' => Blog::with("user")->latest()->get(),
+            'blogs' => Blog::with(['user', 'category'])->latest()->get(),
         ]);
     }
 
@@ -24,7 +25,9 @@ class BlogController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('BlogCreate');
+        return Inertia::render('BlogCreate', [
+            'categories' => Category::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -35,10 +38,13 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => ['required'],
             'description' => ['required'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
+
         $blog = new Blog;
         $blog->title = $validated['title'];
         $blog->description = $validated['description'];
+        $blog->category_id = $validated['category_id'] ?? null;
         $blog->user_id = auth()->id();
         $blog->save();
 
@@ -51,8 +57,8 @@ class BlogController extends Controller
     public function show(Blog $blog): Response
     {
         return Inertia::render('BlogShow', [
-            'blog' => $blog->load('user'),
-            'canUpdate' => auth()->user()->can('update', $blog)
+            'blog' => $blog->load(['user', 'category']),
+            'canUpdate' => auth()->user()->can('update', $blog),
         ]);
     }
 
@@ -63,6 +69,7 @@ class BlogController extends Controller
     {
         return Inertia::render('BlogEdit', [
             'blog' => $blog,
+            'categories' => Category::orderBy('name')->get(),
         ]);
     }
 
@@ -74,10 +81,12 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => ['required'],
             'description' => ['required'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         $blog->title = $validated['title'];
         $blog->description = $validated['description'];
+        $blog->category_id = $validated['category_id'] ?? null;
         $blog->save();
 
         return redirect('/blogs');
