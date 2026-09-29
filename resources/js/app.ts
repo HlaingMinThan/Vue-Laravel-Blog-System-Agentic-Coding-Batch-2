@@ -2,6 +2,7 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { initializeTheme } from "@/composables/useAppearance";
 import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
+import BlogLayout from "@/layouts/BlogLayout.vue";
 import SettingsLayout from "@/layouts/settings/Layout.vue";
 import { initializeFlashToast } from "@/lib/flashToast";
 
@@ -14,13 +15,13 @@ void createInertiaApp({
             case name === "Welcome":
                 return null;
             case name === "Blogs":
-                return null;
+                return BlogLayout;
             case name === "BlogShow":
-                return null;
+                return BlogLayout;
             case name === "BlogCreate":
-                return null;
+                return BlogLayout;
             case name === "BlogEdit":
-                return null;
+                return BlogLayout;
             case name.startsWith("auth/"):
                 return AuthLayout;
             case name.startsWith("settings/"):

@@ -52,6 +52,7 @@ class BlogController extends Controller
     {
         return Inertia::render('BlogShow', [
             'blog' => $blog->load('user'),
+            'canUpdate' => auth()->user()->can('update', $blog)
         ]);
     }
 
